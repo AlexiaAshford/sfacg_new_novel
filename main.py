@@ -11,7 +11,8 @@ for i in range(100):
     result = datetime.datetime(2022, 1, 1) + datetime.timedelta(days=-days_number)
     time_ = result.strftime("%Y-%m-%d").replace('-', '')
     preorder_url_list.append(
-        [result.strftime("%Y-%m-%d"), f'https://pages.sfacg.com/ajax/act/PreOrder.ashx?op=getPreOrderNovels&date={time_}']
+        [result.strftime("%Y-%m-%d"),
+         f'https://pages.sfacg.com/ajax/act/PreOrder.ashx?op=getPreOrderNovels&date={time_}']
     )
 
 headers = {
@@ -22,7 +23,6 @@ headers = {
 
 def dealData(time_data, url):
     result_ = requests.get(url, headers=headers).json()
-    print(url)
     if result_.get('status') == 200:
         result_data = result_.get('data')
         for data in result_data:
@@ -38,7 +38,8 @@ def dealData(time_data, url):
                 novel_name, book_id, cover, is_main_push, tags, intro
             )
             print(show_info)
-            open(str(time_data), 'w', encoding='utf-8').write(show_info)
+            open(str(time_data) + '.txt', 'a', encoding='utf-8').write(show_info)
+
 
 for url in preorder_url_list:
     dealData(url[0], url[1])
